@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { router } from "expo-router";
 const Separator = () => <View style={styles.separator} />;
 
 const Header = () => (
@@ -33,7 +34,12 @@ const Widget = () => (
 
     <View style={styles.container}>
       <Image source={require("../assets/images/NewHabbitIcon.png")} style={styles.imageWidget}/>
-      <Text>Add New Habbit</Text>
+       <Pressable
+        style={styles.AddNewButton}
+        onPress={() => router.push("/AddNewHabbit")}
+      >
+        <Text style={styles.AddNewText}>Add New Habbit</Text>
+      </Pressable>
     </View>
   </View>
 );
@@ -50,6 +56,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    // flexDirection: "column",
     justifyContent: "center",
     marginRight: 16,
     backgroundColor: "#00A991",
@@ -83,9 +90,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   imageWidget: {
+    
     minHeight: 50,
     minWidth: 50,
-  }
+  },
+  AddNewButton: {
+    marginTop: 8,
+    backgroundColor: "#00A991",
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    alignSelf: "center",
+  },
+  AddNewText: {
+    fontSize: 13,
+    justifyContent: "center"
+  },
 });
 
 export { Header, Widget };

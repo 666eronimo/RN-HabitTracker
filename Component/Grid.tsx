@@ -36,7 +36,8 @@ const Grid = () => {
 const styles = StyleSheet.create({
 HeaderGrid: {
     flexDirection: "row",
-    gap: 16,
+    columnGap: 16,
+    flexWrap: "wrap",
     width: "100%",
   },
 
