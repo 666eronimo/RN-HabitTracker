@@ -10,12 +10,49 @@ import {
 } from "react-native";
 
 const AddNewHabbit = () => {
-  const [isToggled, setIsToggled] = useState(false);
-  const defaultColor = "white";
-  const toggledColor = "#00A991";
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
 
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  
+  const toggleSwitch = () => {
+    setIsEnabled((previous) => {
+      const newValue = !previous;
+
+      if (newValue === true) {
+        setSelectedDays(Days.map((d) => d.id));
+      } else {
+        setSelectedDays([]);
+      }
+
+      return newValue;
+    });
+  };
+
+  const toggleDay = (id: number) => {
+    if (selectedDays.includes(id)) {
+      setSelectedDays(selectedDays.filter((day) => day !== id));
+    } else {
+      setSelectedDays([...selectedDays, id]);
+    }
+  };
+
+  React.useEffect(() => {
+    if (selectedDays.length === Days.length) {
+      setIsEnabled(true);
+    } else {
+      setIsEnabled(false);
+    }
+  }, [selectedDays]);
+
+  const Days = [
+    { id: 1, label: "M", textColor: "#FFFFFF" },
+    { id: 2, label: "T", textColor: "#FFFFFF" },
+    { id: 3, label: "W", textColor: "#FFFFFF" },
+    { id: 4, label: "T", textColor: "#FFFFFF" },
+    { id: 5, label: "F", textColor: "#FFFFFF" },
+    { id: 6, label: "S", textColor: "#FFFFFF" },
+    { id: 7, label: "S", textColor: "#FFFFFF" },
+  ];
 
   const habitTypes = [
     {
@@ -132,86 +169,36 @@ const AddNewHabbit = () => {
           />
         </View>
       </View>
-      <View style={styles.daysSelection}>
-        <Pressable
-          onPress={() => setIsToggled((current) => !current)}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: isToggled ? toggledColor : defaultColor,
-            },
-          ]}
-        >
-          M
-        </Pressable>
 
-        <Pressable
-          onPress={() => setIsToggled((current) => !current)}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: isToggled ? toggledColor : defaultColor,
-            },
-          ]}
-        >
-          T
-        </Pressable>
-        <Pressable
-          onPress={() => setIsToggled((current) => !current)}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: isToggled ? toggledColor : defaultColor,
-            },
-          ]}
-        >
-          W
-        </Pressable>
-        <Pressable
-          onPress={() => setIsToggled((current) => !current)}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: isToggled ? toggledColor : defaultColor,
-            },
-          ]}
-        >
-          T
-        </Pressable>
-        <Pressable
-          onPress={() => setIsToggled((current) => !current)}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: isToggled ? toggledColor : defaultColor,
-            },
-          ]}
-        >
-          F
-        </Pressable>
-        <Pressable
-          onPress={() => setIsToggled((current) => !current)}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: isToggled ? toggledColor : defaultColor,
-            },
-          ]}
-        >
-          S
-        </Pressable>
-        <Pressable
-          onPress={() => setIsToggled((current) => !current)}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: isToggled ? toggledColor : defaultColor,
-            },
-          ]}
-        >
-          S
-        </Pressable>
+      <View style={styles.EverydayContainer}>
+        {Days.map((item) => {
+          const isSelected = selectedDays.includes(item.id);
+
+          return (
+            <Pressable
+              key={item.id}
+              onPress={() => toggleDay(item.id)}
+              style={{
+                backgroundColor: isSelected ? "#00A991" : "transparent",
+                paddingVertical: 8,
+                paddingHorizontal: 12,
+                borderRadius: 8,
+                marginHorizontal: 5,
+              }}
+            >
+              <Text
+                style={{
+                  color: isSelected ? "white" : item.textColor,
+                  fontSize: 25,
+                }}
+              >
+                {item.label}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
+
       <View style={styles.saveButtonContainer}>
         <Pressable style={styles.saveButton}>
           <Text style={styles.saveButtonText}>save </Text>
@@ -294,6 +281,8 @@ const styles = StyleSheet.create({
   },
   EverydayContainer: {
     flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginBottom: 25,
   },
   habitIcon: {
     marginLeft: 10,
