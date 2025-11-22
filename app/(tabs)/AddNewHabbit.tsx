@@ -8,12 +8,13 @@ import {
   Switch,
   Image,
 } from "react-native";
+import { router } from "expo-router";
 
 const AddNewHabbit = () => {
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
 
   const [isEnabled, setIsEnabled] = useState(false);
-  
+
   const toggleSwitch = () => {
     setIsEnabled((previous) => {
       const newValue = !previous;
@@ -100,6 +101,10 @@ const AddNewHabbit = () => {
   return (
     <View style={styles.AddNewHabbitPage}>
       <View style={styles.sectionSpacing}>
+        
+        <Pressable onPress={() => router.back()} style={styles.BackButton}>
+          <Image source={require("../../assets/images/BackButton.png")}/>
+        </Pressable>
         <Text style={styles.sectionTitle}>New Habbit</Text>
         <TextInput
           placeholder="Meditation"
@@ -293,6 +298,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
+  BackButton: {
+    marginBottom: 10
+  }
 });
 
 export default AddNewHabbit;
