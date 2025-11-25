@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { router } from "expo-router";
 
 const TaskList = () => {
   const DailyTask = [
@@ -53,7 +54,7 @@ const TaskList = () => {
             <Image source={task.icon} style={styles.icon} />
           </View>
           <Text style={styles.taskText}>{task.label}</Text>
-          <Pressable>
+          <Pressable   onPress={() => router.push("/EditHabbit")}>
             <Image
               source={require("../assets/images/EditPencil.png")}
               style={styles.editIcon}
